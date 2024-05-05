@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Include header -->
+    <header>
+        <div class="header-content">
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#project">Project</a></li>
+                    <li><a href="#social">Social</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="name">Your Name</div>
+        </div>
+    </header>
+
+    <!-- Container for page content -->
+    <div id="pageContent"></div>
+
+    <!-- JavaScript to dynamically load and remove pages -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            // Function to load page content
+            function loadPage(pageId) {
+                fetch(pageId + '.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('pageContent').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading page:', error));
+            }
+
+            // Function to handle link clicks
+            function handleLinkClick(event) {
+                event.preventDefault();
+                var target = event.target;
+                if (target.tagName === 'A') {
+                    var href = target.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        // Extract the page id from the href
+                        var pageId = href.substring(1);
+                        // Load the selected page
+                        loadPage(pageId);
+                    }
+                }
+            }
+
+            // Attach click event listener to navigation links
+            document.querySelector('nav').addEventListener('click', handleLinkClick);
+
+            // Load the home page by default
+            loadPage('home');
+        });
+    </script>
+</body>
+</html>
